@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
-
+import { useSession } from "next-auth/react";
 import Form from "@components/Form";
 
-export const UpdatePrompt = () => {
+const UpdatePrompt = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const promptId = searchParams.get("id");
+
+    const { data: session } = useSession();
 
     const [post, setPost] = useState({ prompt: "", tag: "", });
     const [submitting, setIsSubmitting] = useState(false);
@@ -64,9 +65,8 @@ export const UpdatePrompt = () => {
     );
 };
 
-// export UpdatePrompt;
 
-export const Page = () => {
+const EditPrompt = () => {
     return (
         <Suspense fallback={<div>Loading...</div>}>
             <UpdatePrompt />
@@ -74,4 +74,5 @@ export const Page = () => {
     );
 };
 
-// export Page;
+export default EditPrompt;
+
