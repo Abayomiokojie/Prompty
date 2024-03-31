@@ -7,33 +7,38 @@ import { useState, useEffect } from 'react'
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
 
 const Nav = () => {
-    const isUserLoggedIn = true;
+
+    const { data: session } = useSession();
+
     const [providers, setProviders] = useState(null);
     const [toggleDropdown, setToggleDropdown] = useState(false);
 
     useEffect(() => {
-        const setProviders = async () => {
+        const setUpProviders = async () => {
             const response = await getProviders();
+
             setProviders(response);
         }
-        setProviders();
+        setUpProviders();
     }, []);
 
     return (
         <nav className='flex flex-between w-full mb-16 pt-8'>
             <Link className='flex gap-2 flex-center' href={"/"}>
-                <Image src={"/assets/images/logo.svg"} width={30} height={30} alt='Prompty Logo'
-                    className='object-contain' />
+                <Image src={"/assets/images/prompty-1aii.png"} width={50} height={50} alt='Prompty Logo'
+                    className='object-contain rounded-full shadow-sm ' />
 
-                <p className='logo_text'>
-                    Prompty
+                <p className='logo_text '>
+                    <span className='text-slate-600 font-extrabold text-xl'>
+                        Prompty
+                    </span>
                 </p>
 
             </Link>
 
             {/* Desktop Nagivation */}
-            <div className='hidden sm:flex gap-3'>
-                {isUserLoggedIn ? (
+            <div className='max-[639px]:hidden sm:flex gap-3 '>
+                {session?.user ? (
                     <div className='flex gap-3 md:gap-5'>
                         <Link href="/create-prompt" className="black_btn">
                             Create Post
@@ -43,7 +48,7 @@ const Nav = () => {
                             Sign Out
                         </button>
                         <Link href="/profile">
-                            <Image src={"/assets/images/logo.svg"} width={37} height={37} alt='Profile picture'
+                            <Image src={session?.user.image} width={37} height={37} alt='Profile picture'
                                 className='rounded-full'
                             />
                         </Link>
@@ -51,7 +56,7 @@ const Nav = () => {
                 ) : (
                     <>
                         {providers &&
-                            Object.values(provider).map((provider) => (
+                            Object.values(providers).map((provider) => (
                                 <button
                                     type='button'
                                     key={provider.name}
@@ -65,10 +70,10 @@ const Nav = () => {
             </div>
 
             {/* Mobile Nagivation */}
-            <div className='sm:hidden flex relative'>
-                {isUserLoggedIn ? (
+            <div className='sm:hidden flex '>
+                {session?.user ? (
                     <div className='flex'>
-                        <Image src={"/assets/images/logo.svg"} width={37} height={37} alt='Profile picture'
+                        <Image src={session?.user.image} width={37} height={37} alt='Profile picture'
                             className='rounded-full'
                             onClick={() => setToggleDropdown((prev) => !prev)}
                         />
@@ -104,7 +109,7 @@ const Nav = () => {
                 ) : (
                     <>
                         {providers &&
-                            Object.values(provider).map((provider) => (
+                            Object.values(providers).map((provider) => (
                                 <button
                                     type='button'
                                     key={provider.name}

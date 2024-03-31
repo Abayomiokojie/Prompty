@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const isConnected = false;
+let isConnected = false;
 export const connectToDB = async () => {
     mongoose.set('strictQuery', true);
     if (isConnected) {
@@ -10,13 +10,12 @@ export const connectToDB = async () => {
 
     try {
         await mongoose.connect(process.env.MONGODB_URI, {
-            bdName: "share_prompt",
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            // useFindAndModify: false,
-            // useCreateIndex: true,
+            dbName: "dabkinger",
+            // useNewUrlParser: true,
+            // useUnifiedTopology: true,
         });
         console.log("Connected to MongoDB");
+        isConnected = true; // Set the connection flag - This flag helps prevent unnecessary reconnection attempts if the function is called multiple times during the application’s lifecycle.
     } catch (error) {
         console.log(error);
     }
