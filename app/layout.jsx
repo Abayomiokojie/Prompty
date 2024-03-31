@@ -6,7 +6,7 @@ import Provider from "@components/Provider"
 export const metadata = {
     title: "Prompty",
     description: " Discover & Share your AI prompts with the world.",
-    // image: "https://share-prompts.vercel.app/share-prompts.png",
+    // image: "../public/favicon.ico",
     // url: "https://share-prompts.vercel.app",
 
 };
@@ -15,6 +15,9 @@ export const metadata = {
 const RootLayout = ({ children }) => {
     return (
         <html lang="en">
+            <head>
+                <link rel="icon" href="/favicon.ico" />
+            </head>
             <body>
                 <Provider>
                     <div className="main">
