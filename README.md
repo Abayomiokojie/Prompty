@@ -4,6 +4,10 @@
     <p>A Next.js 14 Web application for sharing AI prompts</p>
   <br />
 
+ <h3> 
+    <a href="https://prompty-ruddy.vercel.app"> Visit App Demo </a>
+ </h3>
+
   <div>
     <img src="https://img.shields.io/badge/-Next_JS-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000" alt="Next.js" />
     <img src="https://img.shields.io/badge/-Mongodb-black?style=for-the-badge&logoColor=white&logo=mongodb&color=47A248" alt="mongodb" />
