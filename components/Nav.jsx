@@ -70,7 +70,7 @@ const Nav = () => {
             </div>
 
             {/* Mobile Nagivation */}
-            <div className='sm:hidden flex '>
+            <div className='sm:hidden flex relative'>
                 {session?.user ? (
                     <div className='flex'>
                         <Image src={session?.user.image} width={37} height={37} alt='Profile picture'
