@@ -18,12 +18,11 @@
 
 ## <a name="table">Table of Contents</a>
 
-1.  [Getting Started](#getting-started)
-2.  [Tech Stack](#tech-stack)
-3.  [Features](#features)
-4.  [Quick Start](#quick-start)
+1.  [Tech Stack](#tech-stack)
+2.  [Features](#features)
+3.  [Quick Start](#quick-start)
 
-## <a name="Getting Started">🤖 Getting Started</a>
+## <a name="tech-stack">🤖 Tech Stack</a>
 
 A Next.js application that highlights the key features of Next.js along with a comprehensive CRUD AI Prompt sharing system utilizing a MongoDB database and implementing NextAuth authentication.
 
@@ -31,6 +30,7 @@ A Next.js application that highlights the key features of Next.js along with a c
 - MongoDB
 - NextAuth
 - TailwindCSS
+
 
 ## <a name="features"> Features</a>
 
