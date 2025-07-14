@@ -13,6 +13,7 @@ const Nav = () => {
 
     const [providers, setProviders] = useState(null);
     const [toggleDropdown, setToggleDropdown] = useState(false);
+    const [isLoadingNext, setIsLoadingNext] = useState(false);
 
     useEffect(() => {
         const setUpProviders = async () => {
@@ -61,17 +62,49 @@ const Nav = () => {
                     <>
                         <button
                             type='button'
-                            className='black_btn gap-2'
-                            disabled={!providers}
-                            onClick={() => {
+                            className={`black_btn gap-2 flex items-center justify-center ${isLoadingNext || !providers ? 'bg-gray-400 cursor-not-allowed opacity-60' : ''}`}
+                            disabled={!providers || isLoadingNext}
+                            onClick={async () => {
                                 if (providers) {
-                                    // If you have only Google, you can hardcode 'google' here
-                                    const provider = Object.values(providers)[0];
-                                    signIn(provider.id);
+                                    setIsLoadingNext(true);
+                                    try {
+                                        const provider = Object.values(providers)[0];
+                                        await signIn(provider.id);
+                                    } finally {
+                                        setIsLoadingNext(false);
+                                    }
                                 }
                             }}>
+                            {isLoadingNext && (
+                                <svg
+                                    className="size-4 animate-spin mr-2"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                >
+                                    <circle
+                                        className="opacity-35"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    ></circle>
+                                    <circle
+                                        className="opacity-75"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                        strokeLinecap="round"
+                                        strokeDasharray="10 60"
+                                        strokeDashoffset="0"
+                                    />
+                                </svg>
+                            )}
                             Sign In
-                            <Image src={GoogleLogo} className='h4 w-4'></Image>
+                            <Image src={GoogleLogo} className='h4 w-4 ml-2'></Image>
                         </button>
                     </>
                 )}

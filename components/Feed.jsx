@@ -108,7 +108,7 @@ const Feed = () => {
             {isLoading ? (
                 <Loading /> // show Loading component when data is being fetched
             ) : error ? (
-                <div className="text-red-500 text-center mt-8">{error}</div>
+                <div className="text-red-500 text-center mt-8"> Oops! Something went wrong. Please refresh the page</div>
             ) : searchText ? (
                 <PromptCardList
                     data={searchedResults}
