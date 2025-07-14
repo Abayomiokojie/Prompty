@@ -32,13 +32,25 @@ const Feed = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await fetch("/api/prompt");
+            // const response = await fetch("/api/prompt");
+            const response = await fetch(`/api/prompt?t=${Date.now()}`, {
+                cache: 'no-store',
+                next: { revalidate: 0 } // Next.js 13+ specific
+            });
             if (!response.ok) {
                 throw new Error(`Failed to fetch prompts: ${response.status}`);
             }
             const data = await response.json();
+
+            // Handle empty or invalid data
+            if (!data || !Array.isArray(data)) {
+                setAllPosts([]);
+                return;
+            }
+
             setAllPosts(data);
         } catch (err) {
+            console.error('Fetch error:', err);
             setError(err.message || "An error occurred while fetching prompts.");
         } finally {
             setIsLoading(false); // set loading to false after fetching data
