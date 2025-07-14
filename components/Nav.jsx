@@ -48,7 +48,6 @@ const Nav = () => {
                         <Link href="/create-prompt" className="black_btn">
                             Create Post
                         </Link>
-
                         <button className='outline_btn' type='button' onClick={signOut}>
                             Sign Out
                         </button>
@@ -60,17 +59,20 @@ const Nav = () => {
                     </div>
                 ) : (
                     <>
-                        {providers &&
-                            Object.values(providers).map((provider) => (
-                                <button
-                                    type='button'
-                                    key={provider.name}
-                                    className='black_btn gap-2'
-                                    onClick={() => signIn(provider.id)}>
-                                    Sign In
-                                    <Image src={GoogleLogo} className='h4 w-4'></Image>
-                                </button>
-                            ))}
+                        <button
+                            type='button'
+                            className='black_btn gap-2'
+                            disabled={!providers}
+                            onClick={() => {
+                                if (providers) {
+                                    // If you have only Google, you can hardcode 'google' here
+                                    const provider = Object.values(providers)[0];
+                                    signIn(provider.id);
+                                }
+                            }}>
+                            Sign In
+                            <Image src={GoogleLogo} className='h4 w-4'></Image>
+                        </button>
                     </>
                 )}
             </div>

@@ -19,11 +19,11 @@ const PromptCardList = ({ data, handleTagClick }) => {
     );
 };
 
-export const dynamic = 'force-dynamic'
 const Feed = () => {
 
     const [allPosts, setAllPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true); // Loading state
+    const [error, setError] = useState(null); // Error state
 
     // Search states
     const [searchText, setSearchText] = useState("");
@@ -31,11 +31,18 @@ const Feed = () => {
     const [searchedResults, setSearchedResults] = useState([]);
 
     const fetchPosts = async () => {
-        const response = await fetch("/api/prompt");
-        const data = await response.json();
-
-        setAllPosts(data);
-        setIsLoading(false); // set loading to false after fetching data
+        try {
+            const response = await fetch("/api/prompt");
+            if (!response.ok) {
+                throw new Error(`Failed to fetch prompts: ${response.status}`);
+            }
+            const data = await response.json();
+            setAllPosts(data);
+        } catch (err) {
+            setError(err.message || "An error occurred while fetching prompts.");
+        } finally {
+            setIsLoading(false); // set loading to false after fetching data
+        }
     };
 
     useEffect(() => {
@@ -88,6 +95,8 @@ const Feed = () => {
             {/* All Prompts */}
             {isLoading ? (
                 <Loading /> // show Loading component when data is being fetched
+            ) : error ? (
+                <div className="text-red-500 text-center mt-8">{error}</div>
             ) : searchText ? (
                 <PromptCardList
                     data={searchedResults}
