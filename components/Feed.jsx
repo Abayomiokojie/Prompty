@@ -32,7 +32,7 @@ const Feed = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await fetch("/api/prompt");
+            const response = await fetch(`/api/prompt?ts=${Date.now()}`);
             // const response = await fetch(`/api/prompt?t=${Date.now()}`, {
             //     cache: 'no-store',
             //     next: { revalidate: 0 } // Next.js 13+ specific
@@ -115,6 +115,7 @@ const Feed = () => {
                         onClick={() => {
                             setIsLoading(true);
                             setError(null);
+                            setAllPosts([]);
                             fetchPosts();
                         }}
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
