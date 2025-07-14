@@ -19,7 +19,9 @@ const PromptCardList = ({ data, handleTagClick }) => {
     );
 };
 
+export const dynamic = 'force-dynamic'
 const Feed = () => {
+
     const [allPosts, setAllPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true); // Loading state
 
