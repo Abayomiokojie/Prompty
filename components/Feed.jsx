@@ -22,8 +22,9 @@ const PromptCardList = ({ data, handleTagClick }) => {
 const Feed = () => {
 
     const [allPosts, setAllPosts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true); // Loading state
-    const [error, setError] = useState(null); // Error state
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [retryCount, setRetryCount] = useState(0);
 
     // Search states
     const [searchText, setSearchText] = useState("");
@@ -32,11 +33,11 @@ const Feed = () => {
 
     const fetchPosts = async () => {
         try {
-            // const response = await fetch("/api/prompt");
-            const response = await fetch(`/api/prompt?t=${Date.now()}`, {
-                cache: 'no-store',
-                next: { revalidate: 0 } // Next.js 13+ specific
-            });
+            const response = await fetch("/api/prompt");
+            // const response = await fetch(`/api/prompt?t=${Date.now()}`, {
+            //     cache: 'no-store',
+            //     next: { revalidate: 0 } // Next.js 13+ specific
+            // });
             if (!response.ok) {
                 throw new Error(`Failed to fetch prompts: ${response.status}`);
             }
@@ -53,7 +54,7 @@ const Feed = () => {
             console.error('Fetch error:', err);
             setError(err.message || "An error occurred while fetching prompts.");
         } finally {
-            setIsLoading(false); // set loading to false after fetching data
+            setIsLoading(false); // loading set to false after fetching data
         }
     };
 
@@ -106,9 +107,22 @@ const Feed = () => {
 
             {/* All Prompts */}
             {isLoading ? (
-                <Loading /> // show Loading component when data is being fetched
+                <Loading />
             ) : error ? (
-                <div className="text-red-500 text-center mt-8"> Oops! Something went wrong. Please refresh the page</div>
+                <div className="text-center mt-8 mb-12">
+
+                    <div className="text-red-500 text-center"> Oops! Something went wrong. Please refresh the page</div>
+                    {/* <button
+                            onClick={() => {
+                                setIsLoading(true);
+                                setError(null);
+                                fetchPosts();
+                            }}
+                            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        >
+                            Try Again
+                        </button> */}
+                </div>
             ) : searchText ? (
                 <PromptCardList
                     data={searchedResults}

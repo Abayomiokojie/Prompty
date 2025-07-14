@@ -39,7 +39,7 @@ const Nav = () => {
             </Link>
 
             {/* Desktop Nagivation */}
-            <div className='hidden md:flex gap-3 '>
+            <div className=' md:flex gap-3 hidden '>
                 <Link href="/" className="flex mr-3 lg:mr-12 gap-2 items-center hover:bg-white/90 backdrop-blur hover:outline hover:outline-slate-200/30 rounded-2xl px-4 py-0 ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="orange" strokeWidth="2" strokeLinecap="round" strokeLineJoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-home "><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l-2 0l9 -9l9 9l-2 0" /><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /></svg>
                     <button className='align-middle items-center'>Home</button>
@@ -149,7 +149,7 @@ const Nav = () => {
                     </div>
                 ) : (
                     <>
-                        {providers &&
+                        {/* {providers &&
                             Object.values(providers).map((provider) => (
                                 <button
                                     type='button'
@@ -159,7 +159,54 @@ const Nav = () => {
                                     Sign In
                                     <Image src={GoogleLogo} sizes='h4 w-4'></Image>
                                 </button>
-                            ))}
+                            ))} */}
+
+                        <button
+                            type='button'
+                            className={`black_btn gap-2 flex items-center justify-center ${isLoadingNext || !providers ? 'bg-gray-400 cursor-not-allowed opacity-60' : ''}`}
+                            disabled={!providers || isLoadingNext}
+                            onClick={async () => {
+                                if (providers) {
+                                    setIsLoadingNext(true);
+                                    try {
+                                        const provider = Object.values(providers)[0];
+                                        await signIn(provider.id);
+                                    } finally {
+                                        setIsLoadingNext(false);
+                                    }
+                                }
+                            }}>
+                            {isLoadingNext && (
+                                <svg
+                                    className="size-4 animate-spin mr-2"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                >
+                                    <circle
+                                        className="opacity-35"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    ></circle>
+                                    <circle
+                                        className="opacity-75"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                        strokeLinecap="round"
+                                        strokeDasharray="10 60"
+                                        strokeDashoffset="0"
+                                    />
+                                </svg>
+                            )}
+                            Sign In
+                            <Image src={GoogleLogo} className='h4 w-4 ml-2'></Image>
+                        </button>
                     </>
                 )}
 

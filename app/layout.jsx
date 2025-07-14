@@ -8,7 +8,7 @@ export const metadata = {
     description: " Discover & Share AI prompts with the world.",
 };
 
-export const dynamic = 'force-dynamic'
+// export const dynamic = 'force-dynamic'
 
 const RootLayout = ({ children }) => {
     return (
