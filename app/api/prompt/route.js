@@ -26,39 +26,24 @@
 // }
 
 // app/api/prompt/route.js
+// app/api/prompt/route.js
 import Prompt from "@models/prompt";
 import { connectToDB } from "@utils/database";
 
 export const dynamic = 'force-dynamic';
-export const maxDuration = 10;
+export const maxDuration = 30; // Increase timeout to 30 seconds
 
 export const GET = async (request) => {
-    console.log('API route called - fetching all prompts');
+    console.log('🟦 API /api/prompt called at:', new Date().toISOString());
 
     try {
+        console.log('🟨 Attempting database connection...');
+        await connectToDB();
+        console.log('✅ Database connected successfully');
 
-        let retries = 3;
-        let lastError;
-
-        while (retries > 0) {
-            try {
-                await connectToDB();
-                break; // Connection successful
-            } catch (error) {
-                lastError = error;
-                retries--;
-                if (retries > 0) {
-                    console.log(`Connection failed, retrying... (${retries} attempts left)`);
-                    await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
-                }
-            }
-        }
-
-        if (retries === 0) {
-            throw lastError;
-        }
-
+        console.log('🟨 Fetching prompts from database...');
         const prompts = await Prompt.find({}).populate('creator').lean();
+        console.log('✅ Found', prompts.length, 'prompts');
 
         return new Response(JSON.stringify(prompts), {
             status: 200,
@@ -67,11 +52,16 @@ export const GET = async (request) => {
             }
         });
     } catch (error) {
-        console.error('Error in GET /api/prompt:', error);
+        console.error('❌ Error in GET /api/prompt:', error);
+        console.error('Error name:', error.name);
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+
         return new Response(
             JSON.stringify({
                 error: 'Failed to fetch prompts',
-                details: error.message
+                details: error.message,
+                timestamp: new Date().toISOString()
             }),
             {
                 status: 500,
