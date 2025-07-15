@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "app/api/prompt/route.js": {
+      "maxDuration": 30
+    },
+    "app/api/prompt/[id]/route.js": {
+      "maxDuration": 30
+    }
+  }
+}
