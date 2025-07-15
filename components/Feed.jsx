@@ -61,8 +61,15 @@ const Feed = () => {
         }
     };
 
+    // useEffect(() => {
+    //     fetchPosts();
+    // }, []);
+
     useEffect(() => {
-        fetchPosts();
+        // Warm the connection first
+        fetch('/api/warm')
+            .then(() => fetchPosts())
+            .catch(() => fetchPosts()); // Try anyway
     }, []);
 
 
