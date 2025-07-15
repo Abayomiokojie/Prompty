@@ -23,7 +23,6 @@ const Feed = () => {
     const [allPosts, setAllPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [isRetrying, setIsRetrying] = useState(false);
 
     // Search states
     const [searchText, setSearchText] = useState("");
@@ -46,9 +45,17 @@ const Feed = () => {
             }
 
             setAllPosts(data);
+            setError(null); // Clear any previous errors
         } catch (err) {
             console.error('Fetch error:', err);
             setError(err.message || "An error occurred while fetching prompts.");
+
+            // Directly trigger reload after 2 seconds
+            console.log('Error detected, will reload in 2 seconds...');
+            setTimeout(() => {
+                console.log('Reloading page now...');
+                window.location.href = window.location.href; // Alternative reload method
+            }, 2000);
         } finally {
             setIsLoading(false);
         }
@@ -57,18 +64,6 @@ const Feed = () => {
     useEffect(() => {
         fetchPosts();
     }, []);
-
-    // Auto-reload on error
-    useEffect(() => {
-        if (error && !isRetrying) {
-            setIsRetrying(true);
-            const timer = setTimeout(() => {
-                window.location.reload();
-            }, 2000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [error, isRetrying]);
 
 
     const filterPrompts = (searchtext) => {
