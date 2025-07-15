@@ -55,7 +55,7 @@ const Feed = () => {
             setTimeout(() => {
                 console.log('Reloading page now...');
                 window.location.href = window.location.href; // Alternative reload method
-            }, 2000);
+            }, 3000);
         } finally {
             setIsLoading(false);
         }

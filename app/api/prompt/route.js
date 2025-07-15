@@ -2,7 +2,6 @@ import Prompt from "@models/prompt";
 import { connectToDB } from "@utils/database";
 
 export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs'; // Ensure Node.js runtime, not Edge
 
 export const GET = async (request) => {
     try {
