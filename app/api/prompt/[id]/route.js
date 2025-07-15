@@ -2,7 +2,7 @@ import Prompt from "@models/prompt";
 import { connectToDB } from "@utils/database";
 
 
-// export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic';
 
 //To read
 export const GET = async (request, { params }) => {
@@ -14,14 +14,6 @@ export const GET = async (request, { params }) => {
         if (!prompt) return new Response("Prompt Not Found", { status: 404 });
 
         return new Response(JSON.stringify(prompt), { status: 200 })
-        // return new Response(JSON.stringify(prompt), {
-        //     status: 200,
-        //     headers: {
-        //         'Cache-Control': 'no-cache, no-store, must-revalidate',
-        //         'Pragma': 'no-cache',
-        //         'Expires': '0',
-        //     }
-        // })
 
     } catch (error) {
         return new Response("Internal Server Error", { status: 500 });

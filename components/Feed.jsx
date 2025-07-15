@@ -23,7 +23,7 @@ const Feed = () => {
     const [allPosts, setAllPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [retryCount, setRetryCount] = useState(0);
+    const [isRetrying, setIsRetrying] = useState(false);
 
     // Search states
     const [searchText, setSearchText] = useState("");
@@ -33,10 +33,7 @@ const Feed = () => {
     const fetchPosts = async () => {
         try {
             const response = await fetch(`/api/prompt?ts=${Date.now()}`);
-            // const response = await fetch(`/api/prompt?t=${Date.now()}`, {
-            //     cache: 'no-store',
-            //     next: { revalidate: 0 } // Next.js 13+ specific
-            // });
+
             if (!response.ok) {
                 throw new Error(`Failed to fetch prompts: ${response.status}`);
             }
@@ -53,13 +50,26 @@ const Feed = () => {
             console.error('Fetch error:', err);
             setError(err.message || "An error occurred while fetching prompts.");
         } finally {
-            setIsLoading(false); // loading set to false after fetching data
+            setIsLoading(false);
         }
     };
 
     useEffect(() => {
         fetchPosts();
     }, []);
+
+    // Auto-reload on error
+    useEffect(() => {
+        if (error && !isRetrying) {
+            setIsRetrying(true);
+            const timer = setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [error, isRetrying]);
+
 
     const filterPrompts = (searchtext) => {
         const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
@@ -111,17 +121,9 @@ const Feed = () => {
                 <div className="text-center mt-8 mb-12">
 
                     <div className="text-red-500 text-center"> Oops! Something went wrong. Please refresh the page</div>
-                    <button
-                        onClick={() => {
-                            setIsLoading(true);
-                            setError(null);
-                            setAllPosts([]);
-                            fetchPosts();
-                        }}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    >
-                        Try Again
-                    </button>
+                    <div className="text-gray-600 text-sm animate-pulse">
+                        Retrying...
+                    </div>
                 </div>
             ) : searchText ? (
                 <PromptCardList
