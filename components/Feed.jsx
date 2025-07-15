@@ -50,12 +50,12 @@ const Feed = () => {
             console.error('Fetch error:', err);
             setError(err.message || "An error occurred while fetching prompts.");
 
-            // Directly trigger reload after 2 seconds
-            console.log('Error detected, will reload in 2 seconds...');
+            // Directly trigger reload after 5 seconds
+            console.log('Error detected, will reload in 5 seconds...');
             setTimeout(() => {
                 console.log('Reloading page now...');
                 window.location.href = window.location.href; // Alternative reload method
-            }, 3000);
+            }, 5000);
         } finally {
             setIsLoading(false);
         }
