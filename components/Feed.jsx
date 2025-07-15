@@ -61,16 +61,10 @@ const Feed = () => {
         }
     };
 
-    // useEffect(() => {
-    //     fetchPosts();
-    // }, []);
-
     useEffect(() => {
-        // Warm the connection first
-        fetch('/api/warm')
-            .then(() => fetchPosts())
-            .catch(() => fetchPosts()); // Try anyway
+        fetchPosts();
     }, []);
+
 
 
     const filterPrompts = (searchtext) => {
