@@ -61,11 +61,17 @@ const Feed = () => {
         }
     };
 
+    // useEffect(() => {
+    //     fetchPosts();
+    // }, []);
+
     useEffect(() => {
-        fetchPosts();
+        const timer = setTimeout(() => {
+            fetchPosts();
+        }, 600);
+
+        return () => clearTimeout(timer);
     }, []);
-
-
 
     const filterPrompts = (searchtext) => {
         const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
