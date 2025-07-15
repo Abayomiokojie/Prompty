@@ -1,5 +1,5 @@
 // app/api/test-db/route.js
-import connectToDB from "@utils/database";
+import { connectToDB } from "@utils/database";
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
