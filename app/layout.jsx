@@ -2,6 +2,7 @@
 import '@styles/globals.css'
 import Nav from "@components/Nav"
 import Provider from "@components/Provider"
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata = {
     title: "Prompty",
@@ -14,6 +15,7 @@ const RootLayout = ({ children }) => {
     return (
         <html lang="en">
             <body>
+                <Analytics />
                 <Provider>
                     <div className="main">
                         <div className="gradient" />

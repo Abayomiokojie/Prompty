@@ -116,9 +116,9 @@ const Feed = () => {
             ) : error ? (
                 <div className="text-center mt-8 mb-12">
 
-                    <div className="text-red-500 text-center"> Oops! Something went wrong. Please refresh the page</div>
+                    <div className="text-red-500 text-center text-lg"> Oops! Something went wrong.</div>
                     <div className="text-gray-600 text-sm animate-pulse">
-                        Retrying...
+                        Retrying... Please hold on.
                     </div>
                 </div>
             ) : searchText ? (
